@@ -51,8 +51,6 @@ public class RegistrationServiceImpl implements IRegister {
 			logger.error(exception.getMessage());
 		}
 		
-		String check = registerUserDao.create(userDao, encryptedPass);
-		
-		return check;
+		return this.registerUserDao.create(userDao, encryptedPass);
 	}
 }

@@ -12,6 +12,7 @@ import com.datastax.driver.core.Session;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fuseIn.api.Interface.IRegisterDao;
 import com.fuseIn.api.dao.RegisterDAO;
+import com.fuseIn.api.utils.PropertyUtil;
 import com.fuseIn.connector.Cassandra;
 
 /*
@@ -33,16 +34,12 @@ public class RegistrationDaoImpl implements IRegisterDao {
 
 	public String create(RegisterDAO userDao, JSONObject encryptedPass) {
 		boolean status = false;
-		String id="1234123121";
+		PropertyUtil proUtil = new PropertyUtil();
+		
 		try {
-				cassObj.connectDb("localhost");
+				cassObj.connectDb(proUtil.getComponentDetails("node"));
 				Session session = cassObj.getSession();
-			/*resSet = session.execute(
-					"insert into fusein.user(email,age,firstname,id,interest,lastname,password_hash,salt) values("
-							+ userDao.getEmail(),
-					userDao.getAge(), userDao.getFirstName(),id,userDao.getInterest(),
-					userDao.getLastName(), encryptedPass.get("encryptedPass"),
-					encryptedPass.get("saltValue") + ") IF NOT EXISTS;");*/
+			/*	resSet = session.execute("insert into fusein.user(email,age,firstname,id,interest,lastname,password_hash,salt) values("+userDao.getEmail(),userDao.getAge()+",'Ashish','007','dance','chaturvedi','asdfv23r','123rfqsd') IF NOT EXISTS;");*/
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

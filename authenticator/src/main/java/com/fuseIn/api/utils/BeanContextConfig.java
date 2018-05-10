@@ -11,17 +11,14 @@ import com.fuseIn.connector.Cassandra;
 @Configuration
 public class BeanContextConfig {
 
-
 	@Bean
 	public IRegisterDao registerUserDao() {
 		return new RegistrationDaoImpl();
 	}
-	
 	@Bean
 	public IRegister registerUserBo() {
 		return new RegistrationServiceImpl(registerUserDao());
 	}
-	
 	@Bean
 	public Cassandra cassObj() {
 		return new Cassandra();

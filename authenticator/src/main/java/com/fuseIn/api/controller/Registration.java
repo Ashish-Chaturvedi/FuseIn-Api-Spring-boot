@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fuseIn.api.Interface.IRegister;
 import com.fuseIn.api.bo.RegisterBO;
 import com.fuseIn.api.dto.RegisterDTO;
-
+import com.fuseIn.api.utils.Constants;
 
 @RestController
-@RequestMapping("/api/register")
+@RequestMapping(Constants.REGISTER_API_MAPPING)
 public class Registration {
-	
-	
+
 	@Autowired
 	private IRegister registerUserBo;
-	
-	@PostMapping(path = "/user", consumes = "application/json", produces = "text/plain")
-	public ResponseEntity<String> getRegistrationDetails(@RequestBody RegisterDTO userRegistration){
-		
+
+	@PostMapping(path = Constants.REGISTER_USER, consumes = "application/json", produces = "text/plain")
+	public ResponseEntity<String> getRegistrationDetails(@RequestBody RegisterDTO userRegistration) {
+
 		RegisterBO userBo = new RegisterBO();
 
 		userBo.setFirstName(userRegistration.getFirstName());
@@ -36,8 +35,7 @@ public class Registration {
 		userBo.setInterest(userRegistration.getInterest());
 		userBo.setPassword(userRegistration.getPassword());
 
-		String check = registerUserBo.create(userBo);
-		
-		return new ResponseEntity<String>("Sprint Boot application has booted successfully",HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>(registerUserBo.create(userBo), HttpStatus.ACCEPTED);
 	}
+
 }

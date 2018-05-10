@@ -20,7 +20,7 @@ public class Cassandra {
 		try {
 		this.cluster = Cluster.builder().addContactPoint(node).withPort(9042).build();
 		Metadata metadata = cluster.getMetadata();
-		logger.info("Connected to cluster: %s\n", metadata.getClusterName());
+		logger.info("Connected to cluster: "+ metadata.getClusterName());
 		}
 		catch(Exception e) {
 }
