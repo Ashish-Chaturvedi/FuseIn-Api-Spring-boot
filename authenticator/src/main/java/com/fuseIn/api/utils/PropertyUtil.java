@@ -14,7 +14,7 @@ public class PropertyUtil {
 	public String getComponentDetails(String property_key) {
 
 		Properties property = new Properties();
-		String propertyFile = "application_details.properties";
+		String propertyFile = "custom.properties";
 
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFile);
 
