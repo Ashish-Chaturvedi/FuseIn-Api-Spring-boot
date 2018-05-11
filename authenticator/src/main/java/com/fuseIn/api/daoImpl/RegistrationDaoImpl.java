@@ -34,17 +34,18 @@ public class RegistrationDaoImpl implements IRegisterDao {
 
 	public String create(RegisterDAO userDao, JSONObject encryptedPass) {
 		boolean status = false;
+		String id = "007";
 		PropertyUtil proUtil = new PropertyUtil();
-		
+		Session session = null;
 		try {
 				cassObj.connectDb(proUtil.getComponentDetails("node"));
-				Session session = cassObj.getSession();
-			/*	resSet = session.execute("insert into fusein.user(email,age,firstname,id,interest,lastname,password_hash,salt) values("+userDao.getEmail(),userDao.getAge()+",'Ashish','007','dance','chaturvedi','asdfv23r','123rfqsd') IF NOT EXISTS;");*/
+				session = cassObj.getSession();
+			resSet = session.execute("insert into fusein.user(email, age, firstname, id, interest, lastname, password_hash, salt) values ("+"'" + userDao.getEmail() + "',"+"'" + userDao.getAge() + "',"+"'" + userDao.getFirstName()+ "',"+"'"+id+"',"+"'"+ userDao.getInterest()+ "',"+"'" + userDao.getLastName()+ "',"+"'"+encryptedPass.get("encryptedPass")+"',"+"'"+encryptedPass.get("saltValue")+"'"+");");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+		session.close();
 		status = resSet.wasApplied();
-		//	JSONObject jsonGenerated = new JSONObject(check);
 			
 		if (status = true)
 			check = "User registered Sucessfully";
