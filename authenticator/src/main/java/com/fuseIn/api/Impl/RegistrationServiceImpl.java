@@ -13,6 +13,7 @@ import com.fuseIn.api.Interface.IRegisterDao;
 import com.fuseIn.api.bo.RegisterBO;
 import com.fuseIn.api.dao.RegisterDAO;
 import com.fuseIn.api.utils.EncodeCredentials;
+import com.fuseIn.api.utils.TokenGenerator;
 /*
  * 
  * @author AshishChaturvedi
@@ -34,8 +35,10 @@ public class RegistrationServiceImpl implements IRegister {
 	public String create(RegisterBO userBo) {
 		JSONObject encryptedPass = null;
 		
+		TokenGenerator generateIdForUser = new TokenGenerator();
+		
 		RegisterDAO userDao = new RegisterDAO();
-
+		
 		userDao.setFirstName(userBo.getFirstName());
 		userDao.setLastName(userBo.getLastName());
 		userDao.setAddress(userBo.getAddress());
@@ -50,6 +53,7 @@ public class RegistrationServiceImpl implements IRegister {
 		}catch(NoSuchAlgorithmException exception) {
 			logger.error(exception.getMessage());
 		}
+		String generatedUserIdentity  = generateIdForUser.tokenGenerator();
 		
 		return this.registerUserDao.create(userDao, encryptedPass);
 	}
