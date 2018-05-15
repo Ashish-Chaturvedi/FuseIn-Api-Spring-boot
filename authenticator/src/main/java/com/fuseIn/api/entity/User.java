@@ -1,14 +1,7 @@
-package com.fuseIn.api.bo;
+package com.fuseIn.api.entity;
 
-import com.fuseIn.api.entity.Address;
-/*
- * 
- * @author AshishChaturvedi
- * 
- */
-public class RegisterBO {
-	
-	
+public class User {
+
 	private String firstName;
 	private String lastName;
 	private String contact;
@@ -17,7 +10,6 @@ public class RegisterBO {
 	private String gender;
 	private String interest;
 	private String email;
-	private String password;
 	private boolean isEnabled;
 	
 	
@@ -69,17 +61,10 @@ public class RegisterBO {
 	public void setInterest(String interest) {
 		this.interest = interest;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public boolean isEnabled(boolean b) {
 		return isEnabled;
 	}
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
-	
 }

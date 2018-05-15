@@ -22,7 +22,7 @@ public class Registration {
 
 	@PostMapping(path = Constants.REGISTER_USER, consumes = "application/json", produces = "text/plain")
 	public ResponseEntity<String> getRegistrationDetails(@RequestBody RegisterDTO userRegistration) {
-
+		
 		RegisterBO userBo = new RegisterBO();
 
 		userBo.setFirstName(userRegistration.getFirstName());
@@ -34,8 +34,9 @@ public class Registration {
 		userBo.setEmail(userRegistration.getEmail());
 		userBo.setInterest(userRegistration.getInterest());
 		userBo.setPassword(userRegistration.getPassword());
+		userBo.isEnabled(false);
 
-		return new ResponseEntity<String>(registerUserBo.create(userBo), HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("token Value: "+registerUserBo.create(userBo), HttpStatus.ACCEPTED);
 	}
 
 }

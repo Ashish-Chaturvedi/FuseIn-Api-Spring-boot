@@ -17,6 +17,7 @@ public class RegisterDTO {
 	private String interest;
 	private String email;
 	private String password;
+	private boolean isEnabled;
 	
 	
 	public Address getAddress() {
@@ -73,6 +74,11 @@ public class RegisterDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	public boolean isEnabled(boolean b) {
+		return isEnabled;
+	}
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
 	
 }

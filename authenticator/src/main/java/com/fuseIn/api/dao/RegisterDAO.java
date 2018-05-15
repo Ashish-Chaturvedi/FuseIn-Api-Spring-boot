@@ -8,6 +8,7 @@ import com.fuseIn.api.entity.Address;
  */
 public class RegisterDAO {
 	
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String contact;
@@ -16,7 +17,14 @@ public class RegisterDAO {
 	private String gender;
 	private String interest;
 	private String email;
+	private boolean isEnabled;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public Address getAddress() {
 		return address;
 	}
@@ -64,6 +72,12 @@ public class RegisterDAO {
 	}
 	public void setInterest(String interest) {
 		this.interest = interest;
+	}
+	public boolean isEnabled(boolean b) {
+		return isEnabled;
+	}
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 	
 }
