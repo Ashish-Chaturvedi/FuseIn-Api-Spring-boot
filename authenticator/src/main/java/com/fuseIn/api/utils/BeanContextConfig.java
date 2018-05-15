@@ -2,6 +2,7 @@ package com.fuseIn.api.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import com.fuseIn.api.Impl.RegistrationServiceImpl;
 import com.fuseIn.api.Interface.IRegister;
 import com.fuseIn.api.Interface.IRegisterDao;
@@ -20,13 +21,19 @@ public class BeanContextConfig {
 	public IRegister registerUserBo() {
 		return new RegistrationServiceImpl(registerUserDao());
 	}
-	@Bean
+	/*@Bean
 	public Cassandra cassObj() {
 		return new Cassandra();
-	}
+	}*/
 	@Bean
 	public User user() {
 		return new User();
 	}
-	
+	 	/*@Bean
+	    JavaMailSender sendEmail() {
+	        JavaMailSenderImpl sender = new JavaMailSenderImpl();
+	        sender.setUsername("ashish.chaturvedi092@gmail.com");
+	        sender.setPassword("FishTrunk@088");
+	        return sender;
+	    }*/
 }
