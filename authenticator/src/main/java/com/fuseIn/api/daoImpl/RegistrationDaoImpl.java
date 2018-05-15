@@ -26,23 +26,28 @@ import com.fuseIn.connector.Cassandra;
 
 @Repository
 public class RegistrationDaoImpl implements IRegisterDao {
-	
+
 	private static Logger logger = LogManager.getLogger();
-	
+
 	@Autowired
 	private Cassandra cassObj;
-	
+
 	@Autowired
-	private User user;	
-	
+	private User user;
+
 	@Override
 	public String create(RegisterDAO userDao, JSONObject encryptedPass) {
-		boolean status = false;
-		ResultSet resSet = null;
 		
+		ResultSet resSet = null;
+
 		PropertyUtil proUtil = new PropertyUtil();
 		Session session = null;
-		String query = "insert into fusein.user(email, age, firstname, id, interest, lastname, password_hash, salt) values ("+"'" + userDao.getEmail() + "',"+"'" + userDao.getAge() + "',"+"'" + userDao.getFirstName()+ "',"+"'"+userDao.getId()+"',"+"'"+ userDao.getInterest()+ "',"+"'" + userDao.getLastName()+ "',"+"'"+encryptedPass.get("encryptedPass")+"',"+"'"+encryptedPass.get("saltValue")+"'"+");";
+		String query = "insert into fusein.user(email, age, firstname, id, interest, lastname, password_hash, salt, status, address, contact) values ("
+				+ "'" + userDao.getEmail() + "'," + "'" + userDao.getAge() + "'," + "'" + userDao.getFirstName() + "',"
+				+ "'" + userDao.getId() + "'," + "'" + userDao.getInterest() + "'," + "'" + userDao.getLastName() + "',"
+				+ "'" + encryptedPass.get("encryptedPass") + "'," + "'" + encryptedPass.get("saltValue") + "'," + "'"
+				+ userDao.isEnabled(false) + "'," + "'" + userDao.getAddress().getCountry() + "'," + "'"
+				+ userDao.getContact() + "'" + ");";
 		try {
 				cassObj.connectDb(proUtil.getComponentDetails("node"));
 				session = cassObj.getSession();
@@ -51,33 +56,35 @@ public class RegistrationDaoImpl implements IRegisterDao {
 			logger.error(e.getMessage());
 		}
 		session.close();
-		status = resSet.wasApplied();
-			
-		if (status = true){
-			logger.info("User "+userDao.getFirstName()+" registered Successfully");
-		}return userDao.getId();
-}
+
+		if (resSet.wasApplied()) 
+			logger.info("User " + userDao.getFirstName() + " registered Successfully");
+		
+		return userDao.getId();
+	}
 
 	@Override
 	public User findUserInRepository(String verificationCheckwithEmail) {
-		
+
 		PropertyUtil proUtil = new PropertyUtil();
 		Session session = null;
-		
+
 		try {
-		cassObj.connectDb(proUtil.getComponentDetails("node"));
-		session = cassObj.getSession();
-		ResultSet getUserSet = session.execute("select * from fuseIn.user where email="+"'"+verificationCheckwithEmail+"';");
-		
-		if(getUserSet != null)
-		mapUserToGetResponse(getUserSet);
+			cassObj.connectDb(proUtil.getComponentDetails("node"));
+			session = cassObj.getSession();
+			ResultSet getUserSet = session
+					.execute("select * from fuseIn.user where email=" + "'" + verificationCheckwithEmail + "';");
+
+			if (getUserSet != null)
+				mapUserToGetResponse(getUserSet);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
 		}
-		catch(Exception e) { logger.error(e.getMessage());}
 		return user;
 	}
 
 	private User mapUserToGetResponse(ResultSet getUserSet) {
-		for(Row row : getUserSet) {
+		for (Row row : getUserSet) {
 			user.setFirstName(row.getString("firstName"));
 			user.setLastName(row.getString("lastName"));
 			user.setEmail(row.getString("email"));
