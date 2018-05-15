@@ -33,10 +33,7 @@ public class RegistrationDaoImpl implements IRegisterDao {
 	private Cassandra cassObj;
 	
 	@Autowired
-	private User user;
-	
-	private String check = "";
-	
+	private User user;	
 	
 	@Override
 	public String create(RegisterDAO userDao, JSONObject encryptedPass) {
@@ -57,7 +54,7 @@ public class RegistrationDaoImpl implements IRegisterDao {
 		status = resSet.wasApplied();
 			
 		if (status = true){
-			logger.info("User registered Successfully");
+			logger.info("User "+userDao.getFirstName()+" registered Successfully");
 		}return userDao.getId();
 }
 
@@ -66,13 +63,14 @@ public class RegistrationDaoImpl implements IRegisterDao {
 		
 		PropertyUtil proUtil = new PropertyUtil();
 		Session session = null;
+		
 		try {
 		cassObj.connectDb(proUtil.getComponentDetails("node"));
 		session = cassObj.getSession();
 		ResultSet getUserSet = session.execute("select * from fuseIn.user where email="+"'"+verificationCheckwithEmail+"';");
 		
+		if(getUserSet != null)
 		mapUserToGetResponse(getUserSet);
-
 		}
 		catch(Exception e) { logger.error(e.getMessage());}
 		return user;
@@ -83,7 +81,6 @@ public class RegistrationDaoImpl implements IRegisterDao {
 			user.setFirstName(row.getString("firstName"));
 			user.setLastName(row.getString("lastName"));
 			user.setEmail(row.getString("email"));
-		//	user.setContact(row.getString("contact"));
 		}
 		return user;
 	}

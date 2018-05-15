@@ -41,8 +41,8 @@ public class RegistrationServiceImpl implements IRegister {
 		User isUserExist  = findUserInRepository(userBo.getEmail());
 		
 		if(isUserExist.getEmail() != null) {
-			logger.info("User already exists with username "+ isUserExist.getFirstName());
-			return "User already Exists";
+			logger.info("User already exists with username "+ isUserExist.getFirstName()+" "+isUserExist.getLastName());
+			return "User already Exists with email: +"+isUserExist.getEmail();
 		}
 		else {
 			userDao.setFirstName(userBo.getFirstName());

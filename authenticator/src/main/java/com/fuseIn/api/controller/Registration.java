@@ -36,7 +36,7 @@ public class Registration {
 		userBo.setPassword(userRegistration.getPassword());
 		userBo.isEnabled(false);
 
-		return new ResponseEntity<String>("token Value: "+registerUserBo.create(userBo), HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>(registerUserBo.create(userBo), HttpStatus.ACCEPTED);
 	}
 
 }
