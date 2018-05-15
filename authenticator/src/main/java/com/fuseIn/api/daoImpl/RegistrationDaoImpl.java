@@ -80,19 +80,22 @@ public class RegistrationDaoImpl implements IRegisterDao {
 		try {
 			session = dataSource.getConnectionFromDatasource();
 			getUserSet = session
-					.execute("select (email,firstname,lastname) from fuseIn.user where email=" + "'" + userEmail + "';");
+					.execute("select * from fuseIn.user where email=" + "'" + userEmail + "';");
 
 			if (getUserSet != null)
-				mapUserObjectToGetResponse(getUserSet);
+				user = mapUserObjectToGetResponse(getUserSet);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
 		return user;
 	}
 
 	private User mapUserObjectToGetResponse(ResultSet getUserSet) {
+		
+		User user = new User();
+		
 		for (Row row : getUserSet) {
+			logger.error("after retrieval :" + row.getString("firstname") );
 			user.setFirstName(row.getString("firstName"));
 			user.setLastName(row.getString("lastName"));
 			user.setEmail(row.getString("email"));
