@@ -10,26 +10,24 @@ import org.springframework.stereotype.Component;
 
 public class EmailNotifierService {
 
-	/*@Autowired
-	public JavaMailSender sendEmail;// idhar null a rha hai
-	*/
 	@Async
 	public void SendEmailToUser(SimpleMailMessage message, JavaMailSender sendEmail) {
 		sendEmail.send(message);
 	}
-	
-	public String sendTokenVerificationToUser(Map<String, String> map,JavaMailSender sendEmail) {
+
+	public String sendTokenVerificationToUser(Map<String, String> map, JavaMailSender sendEmail) {
 		
-		String tokenUri = Constants.URI+"?token="+map.get("token");
+		String text = "Thank you for Registering with us!!!!!!! \n To activate your account, you need to verify your email address...\n Please click on the link to verify\n";
+		String tokenUri = Constants.URI + "?token=" + map.get("token");
 		SimpleMailMessage mailBuilder = new SimpleMailMessage();
+		
 		mailBuilder.setTo(map.get("email"));
 		mailBuilder.setSubject("Registration confirmation for FuseIn Account");
-		mailBuilder.setText(
-				"To activate your account, you need to verify your email address...\n Please click on the link to verify "
-						+ tokenUri);
+		mailBuilder.setText(text+ tokenUri +"\n Above URL will be valid only for 1 hour.");
 		mailBuilder.setFrom("NoReply@fusein.com");
 		EmailNotifierService emailService = new EmailNotifierService();
-		emailService.SendEmailToUser(mailBuilder,sendEmail);
-		return "Verification email sent to you email account";
+		emailService.SendEmailToUser(mailBuilder, sendEmail);
+		
+		return "Verification email sent to your email account";
 	}
 }

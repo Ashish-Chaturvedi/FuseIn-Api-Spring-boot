@@ -12,18 +12,20 @@ import java.util.Random;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class Encoder {
+	private static Logger logger = LogManager.getLogger();
 	
-
-
 	public Map<String, String> encodePassword(String password) throws NoSuchAlgorithmException {
 
-		String salt = saltValueGenerator(30);
+		String salt = saltValueGenerator(15);
 
 		String hashCodeGenerated = generateSecurePassword(password, salt);
 
@@ -80,9 +82,16 @@ public class Encoder {
 		return jwtToken;
 	}
 
-	/*
-	 * String user = Jwts.parser() .setSigningKey(Constants.JWT_SECRET.getBytes())
-	 * .parseClaimsJws(jwtToken) .getBody() .getSubject();
-	 */
-
+	public String verifyJwtTokenForUser(String token) {
+		
+		String userSubject = "";
+		try {
+	  userSubject = Jwts.parser().setSigningKey(Constants.JWT_SECRET.getBytes())
+	 .parseClaimsJws(token).getBody().getSubject();
+		}
+		catch(ExpiredJwtException exceptn) {
+			logger.error(exceptn.getMessage());
+		}
+	  return userSubject;
+	}
 }

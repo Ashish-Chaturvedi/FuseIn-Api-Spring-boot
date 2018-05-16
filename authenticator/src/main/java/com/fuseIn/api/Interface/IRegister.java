@@ -10,4 +10,5 @@ import com.fuseIn.api.entity.User;
 public interface IRegister {
 	public String createUser(RegisterBO text);
 	public User findUserInRepository(String verificationCheck);
+	public String verifyUserForActivation(String token);
 }

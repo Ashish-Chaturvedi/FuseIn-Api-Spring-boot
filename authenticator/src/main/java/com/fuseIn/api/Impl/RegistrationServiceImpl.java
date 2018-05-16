@@ -1,14 +1,8 @@
 package com.fuseIn.api.Impl;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.Map;
-import java.util.UUID;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +11,6 @@ import com.fuseIn.api.Interface.IRegisterDao;
 import com.fuseIn.api.bo.RegisterBO;
 import com.fuseIn.api.dao.RegisterDAO;
 import com.fuseIn.api.entity.User;
-import com.fuseIn.api.utils.Constants;
 import com.fuseIn.api.utils.EmailNotifierService;
 import com.fuseIn.api.utils.Encoder;
 /*
@@ -72,5 +65,17 @@ public class RegistrationServiceImpl implements IRegister {
 	@Override
 	public User findUserInRepository(String verificationCheck) {
 		return this.registerUserDao.findUserInRepository(verificationCheck);
+	}
+
+	@Override
+	public String verifyUserForActivation(String token) {
+		Encoder encode = new Encoder();
+		String tokenStatus = encode.verifyJwtTokenForUser(token);
+		if(tokenStatus == "") {
+			tokenStatus = "Oppssss!!!! your token has expired....";
+			logger.info("token expired.... need to generate a new token for user");
+		}
+		
+		return tokenStatus;
 	}
 }
