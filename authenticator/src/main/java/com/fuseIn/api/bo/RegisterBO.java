@@ -1,5 +1,7 @@
 package com.fuseIn.api.bo;
 
+import java.util.Map;
+
 import com.fuseIn.api.entity.Address;
 /*
  * 
@@ -17,7 +19,7 @@ public class RegisterBO {
 	private String gender;
 	private String interest;
 	private String email;
-	private String password;
+	private Map<String, String> password;
 	private boolean isEnabled;
 	
 	
@@ -69,11 +71,11 @@ public class RegisterBO {
 	public void setInterest(String interest) {
 		this.interest = interest;
 	}
-	public String getPassword() {
+	public Map<String, String> getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(Map<String, String> encryptedPass) {
+		this.password = encryptedPass;
 	}
 	public boolean isEnabled(boolean b) {
 		return isEnabled;

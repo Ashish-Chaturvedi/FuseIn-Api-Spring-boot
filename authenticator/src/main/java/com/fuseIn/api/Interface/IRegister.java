@@ -8,6 +8,6 @@ import com.fuseIn.api.entity.User;
  * 
  */
 public interface IRegister {
-	public String create(RegisterBO text);
+	public String createUser(RegisterBO text);
 	public User findUserInRepository(String verificationCheck);
 }

@@ -1,5 +1,7 @@
 package com.fuseIn.api.dao;
 
+import java.util.Map;
+
 import com.fuseIn.api.entity.Address;
 /*
  * 
@@ -16,9 +18,17 @@ public class RegisterDAO {
 	private String age;
 	private String gender;
 	private String interest;
+	private Map<String, String> password;
 	private String email;
 	private boolean isEnabled;
 	
+	
+	public Map<String, String> getPassword() {
+		return password;
+	}
+	public void setPassword(Map<String, String> password) {
+		this.password = password;
+	}
 	public String getId() {
 		return id;
 	}

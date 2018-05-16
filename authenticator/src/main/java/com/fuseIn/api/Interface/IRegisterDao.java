@@ -11,6 +11,6 @@ import com.fuseIn.api.entity.User;
  * 
  */
 public interface IRegisterDao {
-	public Map<String, String> create(RegisterDAO text, JSONObject encryptedPass);
 	public User findUserInRepository(String verificationCheck);
+	Map<String, String> createUser(RegisterDAO userDao);
 }

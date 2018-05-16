@@ -39,14 +39,14 @@ public class RegistrationDaoImpl implements IRegisterDao {
 	private Session session = null;
 	
 	@Override
-	public Map<String, String> create(RegisterDAO userDao, JSONObject encryptedPass) {
+	public Map<String, String> createUser(RegisterDAO userDao) {
 		
 		ResultSet resSet = null;
 		
 		String query = "insert into fusein.user(email, age, firstname, id, interest, lastname, password_hash, salt, status, address, contact) values ("
 				+ "'" + userDao.getEmail() + "'," + "'" + userDao.getAge() + "'," + "'" + userDao.getFirstName() + "',"
 				+ "'" + userDao.getId() + "'," + "'" + userDao.getInterest() + "'," + "'" + userDao.getLastName() + "',"
-				+ "'" + encryptedPass.get("encryptedPass") + "'," + "'" + encryptedPass.get("saltValue") + "'," + "'"
+				+ "'" + userDao.getPassword().get("password_hash") + "'," + "'" + userDao.getPassword().get("salt") + "'," + "'"
 				+ userDao.isEnabled(false) + "'," + "'" + userDao.getAddress().getCountry() + "'," + "'"
 				+ userDao.getContact() + "'" + ");";
 		try {
@@ -64,14 +64,6 @@ public class RegistrationDaoImpl implements IRegisterDao {
 		return prepareDataForVerification(userDao);
 	}
 
-	private Map<String, String> prepareDataForVerification(RegisterDAO userDao) {
-		
-		Map<String,String> userMap = new HashMap<String,String>();
-		userMap.put("email", userDao.getEmail());
-		userMap.put("token", userDao.getId());
-		return userMap;
-	}
-
 	@Override
 	public User findUserInRepository(String userEmail) {
 		
@@ -83,19 +75,26 @@ public class RegistrationDaoImpl implements IRegisterDao {
 					.execute("select * from fuseIn.user where email=" + "'" + userEmail + "';");
 
 			if (getUserSet != null)
-				user = mapUserObjectToGetResponse(getUserSet);
+				user = mapUserObjectWithGetData(getUserSet);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
 		return user;
 	}
 
-	private User mapUserObjectToGetResponse(ResultSet getUserSet) {
+	private Map<String, String> prepareDataForVerification(RegisterDAO userDao) {
+		
+		Map<String,String> userMap = new HashMap<String,String>();
+		userMap.put("email", userDao.getEmail());
+		userMap.put("token", userDao.getId());
+		return userMap;
+	}
+
+	private User mapUserObjectWithGetData(ResultSet getUserSet) {
 		
 		User user = new User();
 		
 		for (Row row : getUserSet) {
-			logger.error("after retrieval :" + row.getString("firstname") );
 			user.setFirstName(row.getString("firstName"));
 			user.setLastName(row.getString("lastName"));
 			user.setEmail(row.getString("email"));
