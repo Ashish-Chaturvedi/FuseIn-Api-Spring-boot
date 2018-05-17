@@ -7,7 +7,7 @@ public class Constants {
 
 	public static final String REGISTER_API_MAPPING="/api/register";
 	public static final String REGISTER_USER="/user";
-	static final String URI ="http://localhost:8080/authenticator/api/register/acc_verification";
+	static final String URI ="https://localhost:8081/authenticator/api/register/acc_verification";
 	static final Random RANDOM = new SecureRandom();
 	static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	static final int ITERATIONS = 1000;

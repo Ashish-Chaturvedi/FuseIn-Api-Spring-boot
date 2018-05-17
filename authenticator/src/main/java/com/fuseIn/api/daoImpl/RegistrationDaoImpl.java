@@ -87,6 +87,8 @@ public class RegistrationDaoImpl implements IRegisterDao {
 		Map<String,String> userMap = new HashMap<String,String>();
 		userMap.put("email", userDao.getEmail());
 		userMap.put("token", userDao.getId());
+		userMap.put("firstname", userDao.getFirstName());
+		userMap.put("lastname", userDao.getLastName());
 		return userMap;
 	}
 
